@@ -10,9 +10,14 @@ namespace app\index\controller;
 use app\common\lib\Util;
 use app\common\lib\Redis;
 use think\Request;
+use app\common\lib\redis\Predis;
 
 class Login{
     public function index(Request $request){
-        var_dump($request->param());
+        $phoneNum = $request->param('phone_num');
+        $code = $request->param('code');
+        if (empty($phoneNum) || empty($code)) {
+            return Util::show(config('code.val_empty'),'mobile or code is empty');
+        }
     }
 }
