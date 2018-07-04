@@ -19,5 +19,9 @@ class Login{
         if (empty($phoneNum) || empty($code)) {
             return Util::show(config('code.val_empty'),'mobile or code is empty');
         }
+
+        //获取redis中的code
+        $redisCode = Predis::getInstance()->get(Redis::smsKey($phoneNum));
+        echo $redisCode;
     }
 }
