@@ -14,6 +14,8 @@ class Redis{
      */
     public static $pre = 'sms_';
 
+    public static $userpre = 'user_';
+
     /**
      * 存储验证码 redis key
      * @param $mobile
@@ -21,5 +23,12 @@ class Redis{
      */
     public static function smsKey($mobile){
         return self::$pre.$mobile;
+    }
+
+    /**
+     * user key
+     */
+    public static function userkey($mobile){
+        return self::$userpre.$mobile;
     }
 }
