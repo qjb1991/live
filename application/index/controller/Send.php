@@ -17,21 +17,30 @@ class Send
         $code = rand(1000, 9999);
         //todo 验证手机号格式  code.wrong_number
 
-       try{
-           $response = Sms::sendSms($mobile, $code);
-       } catch (\Exception $e){
-           return Util::show(config('code.faile_send_message'), '短信服务内部异常');
-       }
+        $taskData = [
+            'method'    =>  'sendSms',
+            'data'      =>  [
+                'mobile'    =>  $mobile,
+                'code'      =>  $code,
+            ]
+        ];
+        $_POST['http_server']->task($taskData);
+        return Util::show(config('code.success'), 'ok');
+    //    try{
+    //        $response = Sms::sendSms($mobile, $code);
+    //    } catch (\Exception $e){
+    //        return Util::show(config('code.faile_send_message'), '短信服务内部异常');
+    //    }
 
-       if ($response->Code === 'OK'){
+    //    if ($response->Code === 'OK'){
 
-            $redis = new \Swoole\Coroutine\Redis();
-            $redis->connect(config('redis.host'), config('redis.port'));
-            $redis->set(Redis::smsKey($mobile), $code, config('redis.expire'));
+    //         $redis = new \Swoole\Coroutine\Redis();
+    //         $redis->connect(config('redis.host'), config('redis.port'));
+    //         $redis->set(Redis::smsKey($mobile), $code, config('redis.expire'));
 
-            return Util::show(config('code.success'), 'success');
-       }else{
-           return Util::show(config('code.fail_send_msg'), '验证码发送失败');
-       }
+    //         return Util::show(config('code.success'), 'success');
+    //    }else{
+    //        return Util::show(config('code.fail_send_msg'), '验证码发送失败');
+    //    }
     }
 }
