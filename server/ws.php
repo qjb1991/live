@@ -1,25 +1,27 @@
 <?php
-class Http{
+class Ws{
     const HOST = '0.0.0.0';
     const PORT = 9501;
-    public $http = null;
+    public $ws = null;
     public function __construct(){
-        $this->http = new swoole_http_server(self::HOST, self::PORT);
+        $this->ws = new swoole_websocket_server(self::HOST, self::PORT);
 
-        $this->http->set([
+        $this->ws->set([
             'enable_static_handler' =>  true,
             'document_root' =>  "/var/www/html/live/public/static/",
             'worker_num'    =>  5,
             'task_worker_num'   =>  4,
         ]);
 
-        $this->http->on('WorkerStart', [$this, 'onWorkerStart']);
-        $this->http->on('request', [$this, 'onRequest']);
-        $this->http->on('task', [$this, 'onTask']);
-        $this->http->on('finish', [$this, 'onFinish']);
-        $this->http->on('close', [$this, 'onClose']);
+        $this->ws->on('WorkerStart', [$this, 'onWorkerStart']);
+        $this->ws->on('request', [$this, 'onRequest']);
+        $this->ws->on('open', [$this, 'onOpen']);
+        $this->ws->on('message', [$this, 'onMessage']);
+        $this->ws->on('task', [$this, 'onTask']);
+        $this->ws->on('finish', [$this, 'onFinish']);
+        $this->ws->on('close', [$this, 'onClose']);
 
-        $this->http->start();
+        $this->ws->start();
     }
 
     public function onWorkerStart(swoole_server $server,$worker_id){
@@ -53,7 +55,7 @@ class Http{
                 $_POST[$k] = $v;
             }
         }
-        $_POST['http_server'] = $this->http;
+        $_POST['http_server'] = $this->ws;
 
         ob_start();
         // 2. 执行应用
@@ -88,9 +90,19 @@ class Http{
         echo "finish-data-success:{$data}\n";
     }
 
+    public function onOpen($ws, $request){
+        var_dump($request->fd);
+    }
+
+    public function onMessage($ws, $frame){
+        echo "ser-push-message:{$frame->data}\n";
+        $ws->push($frame-fd, "server-push:".date('Y-m-d H:i:s'));
+    }
+
     public function onClose($ws, $fd){
         echo "clientid:{$fd}\n";
     }
+
 }
 
-new Http();
+new ws();
