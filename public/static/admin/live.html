@@ -120,7 +120,6 @@
             var $li = $(
               '<div id="' + file.id + '" class="file-item thumbnail">' +
               '<img>' +
-              '<div class="info">' + file.name + '</div>' +
               '</div>'
             ),
               $img = $li.find('img');
@@ -159,7 +158,10 @@
           });
 
           // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-          uploader.on('uploadSuccess', function (file) {
+          uploader.on('uploadSuccess', function (file, response) {
+              if (response.status == 200){
+                  $('#'+file.id).append('<input type="hidden" name="image" value="'+response.data.image+'" />')
+              }
             $('#' + file.id).addClass('upload-state-done');
           });
 
@@ -188,7 +190,7 @@
           event.preventDefault();
           var formData = $('form').serialize();
           // TODO: 请求后台接口跳转界面，前端跳转或者后台跳
-          $.get("http://singwa.swoole.com:8811?s=admin/live/push&" + formData, function (data) {
+          $.get("http://eaimin.com:9501/admin/live/push?" + formData, function (data) {
 
             if (data.status == 1) {
               // 登录成功
