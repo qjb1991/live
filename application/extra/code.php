@@ -12,4 +12,5 @@ return [
     'wrong_number'      =>  4002,       //手机号格式错误
     'val_empty'         =>  4003,       //手机号或验证码为空
     'login_error'       =>  4004,       //登录失败
+    'image_error'       =>  4005,       //获取图片信息失败
 ];

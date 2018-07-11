@@ -85,6 +85,11 @@
       </form>
     </div>
     <script>
+      $list = $("#fileList");
+          ratio = window.devicePixelRatio || 1,
+          thumbnailWidth = 100 * ratio,
+          thumbnailHeight = 100 * ratio,
+          uploader;
       // 初始化Web Uploader
         var uploader = WebUploader.create({
 
@@ -95,7 +100,7 @@
           swf: 'http://eaimin.com:9501/webuploader/Uploader.swf',
 
           // 文件接收服务端。
-          server: 'http://eaimin.com/admin/image/index',
+          server: 'http://eaimin.com:9501/admin/image/index',
 
           // 选择文件的按钮。可选。
           // 内部根据当前运行是创建，可能是input元素，也可能是flash.
