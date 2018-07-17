@@ -12,6 +12,6 @@ class Live{
     public function push(){
         print_r($_GET);
 
-        $_POST['http_server']->push(2, 'hello-push');
+        $_POST['http_server']->push(8, 'hello-push');
     }
 }
