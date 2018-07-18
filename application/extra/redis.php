@@ -10,4 +10,5 @@ return [
     'port'  =>  6379,
     'expire'  =>  120,
     'time_out'  =>5,
+    'live_game_key'    =>  'live_game_key'
 ];
