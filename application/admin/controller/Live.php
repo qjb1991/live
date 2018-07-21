@@ -10,6 +10,8 @@ use app\common\lib\Util;
 
 class Live{
     public function push(){
+        $clients = Predis::getInstance()->sMembers(config("redis.live_game_key"));
+        print_r($clients);
         // if(empty($_GET)){
         //     return Util::show(config('code.error'), 'error');
         // }
