@@ -74,4 +74,11 @@ class Predis{
     public function sMembers($key){
         return $this->redis->sMembers($key);
     }
+
+    // public function __call($name, $arguments){
+    //     if(count($arguments) != 2){
+    //         return '';
+    //     }
+    //     return $this->redis->$name($arguments[0], $arguments[1]);
+    // }
 }
