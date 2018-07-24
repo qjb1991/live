@@ -32,7 +32,7 @@ function push(data) {
 	html +=	'</div>';
     html += '<p>test html</p>';
     html += '</div>';
-    html +=	'</div >';
+    html +=	'</div>';
 
     $('#match-result').prepend(html);
 }
