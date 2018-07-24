@@ -32,10 +32,17 @@ class Live{
             'content'   =>  !empty($_GET['content']) ? $_GET['content'] : '',
             'image' =>  !empty($_GET['image']) ? $_GET['image'] : '',
         ];
-        $clients = Predis::getInstance()->sMembers(config("redis.live_game_key"));
-        foreach($clients as $fd){
-            $_POST['http_server']->push($fd, json_encode($data));
-        }
-        // $_POST['http_server']->push(8, 'hello-push');
+        //方式一
+        // $clients = Predis::getInstance()->sMembers(config("redis.live_game_key"));
+        // foreach($clients as $fd){
+        //     $_POST['http_server']->push($fd, json_encode($data));
+        // }
+        //方式二
+        $taskData = [
+            'method'    =>  'pushLive',
+            'data'  =>  $data
+        ];
+        $_POST['http_server']->task($taskData);
+        return Util::show(config('code.success', 'ok'));
     }
 }

@@ -80,7 +80,7 @@ class Ws{
 
         $obj = new app\common\lib\task\Task;
         $method = $data['method'];
-        $flag = $obj->$method($data['data']);
+        $flag = $obj->$method($data['data'], $serv);
         // try{
         //     $obj = new app\common\lib\ali\Sms;
         //     $response = $obj::sendSms($data['mobile'], $data['code']);
